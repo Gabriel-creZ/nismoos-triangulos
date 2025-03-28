@@ -2,64 +2,109 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>NismoOS: (Resolución De Triángulos)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NismoOS: Resolución de Triángulos</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-  <h1>NismoOS: (Resolución De Triángulos)</h1>
-  <p>Creado por: <strong>Gabriel Castillo (gabriel_cre)</strong></p>
-  
-  {% with messages = get_flashed_messages() %}
-    {% if messages %}
-      <div class="error">
-        {% for msg in messages %}
-          <p>{{ msg }}</p>
-        {% endfor %}
+  <div class="container">
+    <header class="header">
+      <h1><i class="fas fa-triangle triangle-icon"></i> NismoOS: Resolución de Triángulos <i class="fas fa-triangle triangle-icon"></i></h1>
+      <p class="creator">Creado por: <strong>Gabriel Castillo (gabriel_cre)</strong></p>
+    </header>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="error-message">
+          {% for msg in messages %}
+            <p><i class="fas fa-exclamation-circle"></i> {{ msg }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <div class="content">
+      <div class="form-container">
+        <h2 class="form-title"><i class="fas fa-calculator"></i> Datos del Triángulo</h2>
+        <form method="POST">
+          <div class="form-group">
+            <label for="lado_a"><i class="fas fa-ruler-horizontal"></i> Lado a:</label>
+            <input type="text" name="lado_a" id="lado_a" placeholder="Ingrese longitud">
+          </div>
+          <div class="form-group">
+            <label for="lado_b"><i class="fas fa-ruler-horizontal"></i> Lado b:</label>
+            <input type="text" name="lado_b" id="lado_b" placeholder="Ingrese longitud">
+          </div>
+          <div class="form-group">
+            <label for="lado_c"><i class="fas fa-ruler-horizontal"></i> Lado c:</label>
+            <input type="text" name="lado_c" id="lado_c" placeholder="Ingrese longitud">
+          </div>
+          <div class="form-group">
+            <label for="angulo_A"><i class="fas fa-angle-right"></i> Ángulo α (alpha):</label>
+            <input type="text" name="angulo_A" id="angulo_A" placeholder="Ingrese grados">
+          </div>
+          <div class="form-group">
+            <label for="angulo_B"><i class="fas fa-angle-right"></i> Ángulo β (beta):</label>
+            <input type="text" name="angulo_B" id="angulo_B" placeholder="Ingrese grados">
+          </div>
+          <div class="form-group">
+            <label for="angulo_C"><i class="fas fa-angle-right"></i> Ángulo γ (gamma):</label>
+            <input type="text" name="angulo_C" id="angulo_C" placeholder="Ingrese grados">
+          </div>
+          <button type="submit" class="btn">
+            <i class="fas fa-calculator"></i> Resolver Triángulo
+          </button>
+        </form>
       </div>
-    {% endif %}
-  {% endwith %}
-  
-  <form method="POST">
-    <p>
-      <label for="lado_a">Lado a:</label>
-      <input type="text" name="lado_a" id="lado_a">
-    </p>
-    <p>
-      <label for="lado_b">Lado b:</label>
-      <input type="text" name="lado_b" id="lado_b">
-    </p>
-    <p>
-      <label for="lado_c">Lado c:</label>
-      <input type="text" name="lado_c" id="lado_c">
-    </p>
-    <p>
-      <label for="angulo_A">Ángulo α:</label>
-      <input type="text" name="angulo_A" id="angulo_A">
-    </p>
-    <p>
-      <label for="angulo_B">Ángulo β:</label>
-      <input type="text" name="angulo_B" id="angulo_B">
-    </p>
-    <p>
-      <label for="angulo_C">Ángulo γ:</label>
-      <input type="text" name="angulo_C" id="angulo_C">
-    </p>
-    <button type="submit">Resolver Triángulo</button>
-  </form>
-  
-  {% if resultados %}
-    <h2>Resultados (usando la ley de {{ resultados.metodo }})</h2>
-    <p>Lado a: {{ resultados.lado_a }}</p>
-    <p>Lado b: {{ resultados.lado_b }}</p>
-    <p>Lado c: {{ resultados.lado_c }}</p>
-    <p>Ángulo α: {{ resultados.angulo_A }}°</p>
-    <p>Ángulo β: {{ resultados.angulo_B }}°</p>
-    <p>Ángulo γ: {{ resultados.angulo_C }}°</p>
-    <p>Perímetro: {{ resultados.perimetro }}</p>
-    <p>Área: {{ resultados.area }}</p>
-    <h3>Gráfica del triángulo</h3>
-    <img src="data:image/png;base64,{{ imagen }}" alt="Gráfica del triángulo">
-  {% endif %}
-  
+
+      {% if resultados %}
+      <div class="results-container">
+        <h2 class="results-title"><i class="fas fa-chart-pie"></i> Resultados <small>(ley de {{ resultados.metodo }})</small></h2>
+        
+        <div class="result-item">
+          <span class="result-label"><span class="emoji">📏</span> Lado a:</span>
+          <span class="result-value">{{ resultados.lado_a }} u</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label"><span class="emoji">📏</span> Lado b:</span>
+          <span class="result-value">{{ resultados.lado_b }} u</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label"><span class="emoji">📏</span> Lado c:</span>
+          <span class="result-value">{{ resultados.lado_c }} u</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label"><span class="emoji">📐</span> Ángulo α:</span>
+          <span class="result-value">{{ resultados.angulo_A }}°</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label"><span class="emoji">📐</span> Ángulo β:</span>
+          <span class="result-value">{{ resultados.angulo_B }}°</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label"><span class="emoji">📐</span> Ángulo γ:</span>
+          <span class="result-value">{{ resultados.angulo_C }}°</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label"><span class="emoji">⏱️</span> Perímetro:</span>
+          <span class="result-value">{{ resultados.perimetro }} u</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label"><span class="emoji">🔵</span> Área:</span>
+          <span class="result-value">{{ resultados.area }} u²</span>
+        </div>
+        
+        <h3 style="text-align: center; margin-top: 25px;"><i class="fas fa-drafting-compass"></i> Gráfica del Triángulo</h3>
+        <img src="data:image/png;base64,{{ imagen }}" alt="Gráfica del triángulo" class="triangle-image">
+      </div>
+      {% endif %}
+    </div>
+
+    <footer class="footer">
+      <p>© 2023 NismoOS - Herramienta educativa para resolución de triángulos</p>
+    </footer>
+  </div>
 </body>
 </html>
