@@ -1,2 +1,4 @@
 Flask==2.2.2
-matplotlib
+gunicorn==20.1.0
+matplotlib==3.7.1
+numpy==1.24.2
