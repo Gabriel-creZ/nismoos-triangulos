@@ -1,0 +1,17 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+    margin: 20px;
+}
+
+h1 {
+    color: #333;
+}
+
+form p {
+    margin-bottom: 10px;
+}
+
+.error {
+    color: red;
+}

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>NismoOS: (Resolución De Triángulos)</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <h1>NismoOS: (Resolución De Triángulos)</h1>
+  <p>Creado por: <strong>Gabriel Castillo (gabriel_cre)</strong></p>
+  
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <div class="error">
+        {% for msg in messages %}
+          <p>{{ msg }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+  
+  <form method="POST">
+    <p>
+      <label for="lado_a">Lado a:</label>
+      <input type="text" name="lado_a" id="lado_a">
+    </p>
+    <p>
+      <label for="lado_b">Lado b:</label>
+      <input type="text" name="lado_b" id="lado_b">
+    </p>
+    <p>
+      <label for="lado_c">Lado c:</label>
+      <input type="text" name="lado_c" id="lado_c">
+    </p>
+    <p>
+      <label for="angulo_A">Ángulo α:</label>
+      <input type="text" name="angulo_A" id="angulo_A">
+    </p>
+    <p>
+      <label for="angulo_B">Ángulo β:</label>
+      <input type="text" name="angulo_B" id="angulo_B">
+    </p>
+    <p>
+      <label for="angulo_C">Ángulo γ:</label>
+      <input type="text" name="angulo_C" id="angulo_C">
+    </p>
+    <button type="submit">Resolver Triángulo</button>
+  </form>
+  
+  {% if resultados %}
+    <h2>Resultados (usando la ley de {{ resultados.metodo }})</h2>
+    <p>Lado a: {{ resultados.lado_a }}</p>
+    <p>Lado b: {{ resultados.lado_b }}</p>
+    <p>Lado c: {{ resultados.lado_c }}</p>
+    <p>Ángulo α: {{ resultados.angulo_A }}°</p>
+    <p>Ángulo β: {{ resultados.angulo_B }}°</p>
+    <p>Ángulo γ: {{ resultados.angulo_C }}°</p>
+    <p>Perímetro: {{ resultados.perimetro }}</p>
+    <p>Área: {{ resultados.area }}</p>
+    <h3>Gráfica del triángulo</h3>
+    <img src="data:image/png;base64,{{ imagen }}" alt="Gráfica del triángulo">
+  {% endif %}
+  
+</body>
+</html>
