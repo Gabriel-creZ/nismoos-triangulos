@@ -9,6 +9,22 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
+  {% if not session.get('logged_in') %}
+  <div class="login-container">
+    <h2 class="login-title"><i class="fas fa-lock"></i> Acceso al Sistema</h2>
+    <form method="POST" action="{{ url_for('login') }}" class="login-form">
+      <div class="form-group">
+        <label for="username"><i class="fas fa-user"></i> Usuario:</label>
+        <input type="text" name="username" id="username" placeholder="Ingrese su usuario" required>
+      </div>
+      <div class="form-group">
+        <label for="password"><i class="fas fa-key"></i> Contraseña:</label>
+        <input type="password" name="password" id="password" placeholder="Ingrese su contraseña" required>
+      </div>
+      <button type="submit" class="login-btn">Ingresar</button>
+    </form>
+  </div>
+  {% else %}
   <div class="container">
     <header class="header">
       <h1><i class="fas fa-triangle triangle-icon"></i> NismoOS: Resolución de Triángulos <i class="fas fa-triangle triangle-icon"></i></h1>
@@ -63,48 +79,53 @@
       <div class="results-container">
         <h2 class="results-title"><i class="fas fa-chart-pie"></i> Resultados <small>(ley de {{ resultados.metodo }})</small></h2>
         
-        <div class="result-item">
-          <span class="result-label"><span class="emoji">📏</span> Lado a:</span>
-          <span class="result-value">{{ resultados.lado_a }} u</span>
-        </div>
-        <div class="result-item">
-          <span class="result-label"><span class="emoji">📏</span> Lado b:</span>
-          <span class="result-value">{{ resultados.lado_b }} u</span>
-        </div>
-        <div class="result-item">
-          <span class="result-label"><span class="emoji">📏</span> Lado c:</span>
-          <span class="result-value">{{ resultados.lado_c }} u</span>
-        </div>
-        <div class="result-item">
-          <span class="result-label"><span class="emoji">📐</span> Ángulo α:</span>
-          <span class="result-value">{{ resultados.angulo_A }}°</span>
-        </div>
-        <div class="result-item">
-          <span class="result-label"><span class="emoji">📐</span> Ángulo β:</span>
-          <span class="result-value">{{ resultados.angulo_B }}°</span>
-        </div>
-        <div class="result-item">
-          <span class="result-label"><span class="emoji">📐</span> Ángulo γ:</span>
-          <span class="result-value">{{ resultados.angulo_C }}°</span>
-        </div>
-        <div class="result-item">
-          <span class="result-label"><span class="emoji">⏱️</span> Perímetro:</span>
-          <span class="result-value">{{ resultados.perimetro }} u</span>
-        </div>
-        <div class="result-item">
-          <span class="result-label"><span class="emoji">🔵</span> Área:</span>
-          <span class="result-value">{{ resultados.area }} u²</span>
+        <div class="result-grid">
+          <div class="result-item">
+            <span class="result-label"><span class="emoji">📏</span> Lado a:</span>
+            <span class="result-value">{{ resultados.lado_a }} u</span>
+          </div>
+          <div class="result-item">
+            <span class="result-label"><span class="emoji">📏</span> Lado b:</span>
+            <span class="result-value">{{ resultados.lado_b }} u</span>
+          </div>
+          <div class="result-item">
+            <span class="result-label"><span class="emoji">📏</span> Lado c:</span>
+            <span class="result-value">{{ resultados.lado_c }} u</span>
+          </div>
+          <div class="result-item">
+            <span class="result-label"><span class="emoji">📐</span> Ángulo α:</span>
+            <span class="result-value">{{ resultados.angulo_A }}°</span>
+          </div>
+          <div class="result-item">
+            <span class="result-label"><span class="emoji">📐</span> Ángulo β:</span>
+            <span class="result-value">{{ resultados.angulo_B }}°</span>
+          </div>
+          <div class="result-item">
+            <span class="result-label"><span class="emoji">📐</span> Ángulo γ:</span>
+            <span class="result-value">{{ resultados.angulo_C }}°</span>
+          </div>
+          <div class="result-item">
+            <span class="result-label"><span class="emoji">⏱️</span> Perímetro:</span>
+            <span class="result-value">{{ resultados.perimetro }} u</span>
+          </div>
+          <div class="result-item">
+            <span class="result-label"><span class="emoji">🔵</span> Área:</span>
+            <span class="result-value">{{ resultados.area }} u²</span>
+          </div>
         </div>
         
-        <h3 style="text-align: center; margin-top: 25px;"><i class="fas fa-drafting-compass"></i> Gráfica del Triángulo</h3>
-        <img src="data:image/png;base64,{{ imagen }}" alt="Gráfica del triángulo" class="triangle-image">
+        <div class="triangle-image-container">
+          <h3><i class="fas fa-drafting-compass"></i> Gráfica del Triángulo</h3>
+          <img src="data:image/png;base64,{{ imagen }}" alt="Gráfica del triángulo" class="triangle-image">
+        </div>
       </div>
       {% endif %}
     </div>
 
     <footer class="footer">
-      <p>© 2023 NismoOS - Herramienta educativa para resolución de triángulos</p>
+      <a href="https://bachantoniomadna.milaulas.com" target="_blank">@ 2025 NismoOS - Herramienta educativa desarrollada por Gabriel Castillo, Alumno AMRD</a>
     </footer>
   </div>
+  {% endif %}
 </body>
 </html>
