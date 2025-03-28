@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 import math
 import matplotlib
 matplotlib.use('Agg')  # Backend no interactivo
@@ -7,10 +7,33 @@ import io
 import base64
 
 app = Flask(__name__)
-app.secret_key = 'tu_clave_secreta'
+app.secret_key = 'tu_clave_secreta'  # Cambia esto por una clave más segura en producción
+
+# Configuración de sesión (para mantener el login activo)
+app.config['SESSION_PERMANENT'] = True
+app.config['PERMANENT_SESSION_LIFETIME'] = 3600  # 1 hora en segundos
+
+# Ruta para el login
+@app.route('/login', methods=['POST'])
+def login():
+    username = request.form.get('username')
+    password = request.form.get('password')
+    
+    if username == 'alumno' and password == 'amrd':
+        session['logged_in'] = True
+        return redirect(url_for('index'))
+    else:
+        flash('Usuario o contraseña incorrectos')
+        return redirect(url_for('index'))
+
+# Ruta para logout
+@app.route('/logout')
+def logout():
+    session.pop('logged_in', None)
+    return redirect(url_for('index'))
 
 # ---------------------------
-# Funciones para ley de senos
+# Funciones para ley de senos (sin cambios)
 # ---------------------------
 def calcular_triangulo_sen(angulo_A=None, angulo_B=None, angulo_C=None, 
                              lado_a=None, lado_b=None, lado_c=None):
@@ -138,7 +161,7 @@ def graficar_triangulo_sen(lado_a, lado_b, lado_c, angulo_A, angulo_B, angulo_C)
     return image_base64
 
 # ----------------------------
-# Funciones para ley de cosenos
+# Funciones para ley de cosenos (sin cambios)
 # ----------------------------
 def calcular_triangulo_cos(a=None, b=None, c=None, A=None, B=None, C=None):
     # Si se conocen 2 ángulos, calcular el tercero
@@ -270,7 +293,7 @@ def graficar_triangulo_cos(a, b, c, A, B, C):
     return image_base64
 
 # --------------------------------
-# Función que detecta el método a usar
+# Función que detecta el método a usar (sin cambios)
 # --------------------------------
 def resolver_triangulo(a, b, c, A, B, C):
     count_sides = sum(x is not None for x in [a, b, c])
@@ -306,10 +329,14 @@ def resolver_triangulo(a, b, c, A, B, C):
         return calcular_triangulo_cos(a=a, b=b, c=c, A=A, B=B, C=C), method
 
 # ---------------------------
-# Ruta principal de la aplicación
+# Ruta principal de la aplicación (modificada para incluir login)
 # ---------------------------
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    # Verificar si el usuario está logueado
+    if not session.get('logged_in'):
+        return render_template("login.html")
+    
     if request.method == 'POST':
         try:
             def get_val(field):
